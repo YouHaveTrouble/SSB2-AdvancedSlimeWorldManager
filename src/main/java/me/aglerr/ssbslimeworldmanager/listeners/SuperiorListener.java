@@ -11,8 +11,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-import java.util.Arrays;
-
 public class SuperiorListener implements Listener {
 
     private final SSBSlimeWorldManager plugin;

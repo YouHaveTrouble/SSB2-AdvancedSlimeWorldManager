@@ -8,10 +8,7 @@ import com.grinderwolf.swm.api.loaders.SlimeLoader;
 import com.grinderwolf.swm.api.world.SlimeWorld;
 import com.grinderwolf.swm.api.world.properties.SlimeProperties;
 import com.grinderwolf.swm.api.world.properties.SlimePropertyMap;
-import com.grinderwolf.swm.internal.com.mongodb.lang.Nullable;
-import com.grinderwolf.swm.nms.CraftSlimeWorld;
 import me.aglerr.ssbslimeworldmanager.ConfigValue;
-import me.aglerr.ssbslimeworldmanager.SSBSlimeWorldManager;
 import me.aglerr.ssbslimeworldmanager.tasks.TaskManager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -104,14 +101,14 @@ public final class SlimeUtils {
 
     public void unloadWorld(String worldName){
         SlimeWorld slimeWorld = this.islandWorlds.get(worldName);
-        if(slimeWorld != null){
-            try{
-                byte[] serializedWorld = ((CraftSlimeWorld) slimeWorld).serialize();
-                this.slimeLoader.saveWorld(slimeWorld.getName(), serializedWorld, true);
-            } catch (Exception ex){
-                ex.printStackTrace();
-            }
-        }
+//        if(slimeWorld != null){
+//            try{
+//                byte[] serializedWorld = ((CraftSlimeWorld) slimeWorld).serialize();
+//                this.slimeLoader.saveWorld(slimeWorld.getName(), serializedWorld, true);
+//            } catch (Exception ex){
+//                ex.printStackTrace();
+//            }
+//        }
         if(Bukkit.getWorld(worldName) != null){
             Bukkit.unloadWorld(worldName, true);
         }
@@ -125,45 +122,14 @@ public final class SlimeUtils {
         return "island_" + islandUUID + "_" + environment.name().toLowerCase();
     }
 
-    private boolean isIslandWorldName(String worldName){
-        String[] nameSections = worldName.split("_");
-        try{
-            UUID.fromString(nameSections[0]);
-            World.Environment.valueOf(nameSections[1]);
-            return true;
-        }catch (Exception ex){
-            return false;
-        }
-    }
-
-    private SlimeWorld asyncLoadWorld(String worldName, World.Environment environment){
-        final SlimeWorld[] slimeWorlds = new SlimeWorld[1];
-        slimePlugin.asyncLoadWorld(slimeLoader, worldName, false, slimePropertyMap(environment)).thenAccept(world -> {
-            if(world.isEmpty()){
-                // Do something else
-                throw new IllegalStateException("Failed to load world (" + worldName + ") on environment " + environment.name());
-            }
-            slimeWorlds[0] = world.get();
-        });
-        return slimeWorlds[0];
-    }
-
-    private SlimeWorld asyncCreateEmptyWorld(String worldName, World.Environment environment){
-        final SlimeWorld[] slimeWorlds = new SlimeWorld[1];
-        slimePlugin.asyncCreateEmptyWorld(slimeLoader, worldName, false, slimePropertyMap(environment)).thenAcceptAsync(world -> {
-            if(world.isEmpty()){
-                // Do something else
-                throw new IllegalStateException("Failed to create an empty world (" + worldName + ") on environment " + environment.name());
-            }
-            slimeWorlds[0] = world.get();
-        });
-        return slimeWorlds[0];
-    }
-
     public SlimePropertyMap slimePropertyMap(World.Environment environment){
         SlimePropertyMap slimePropertyMap = new SlimePropertyMap();
         slimePropertyMap.setValue(SlimeProperties.DIFFICULTY, "normal");
-        slimePropertyMap.setValue(SlimeProperties.ENVIRONMENT, environment.name());
+        if (environment.name().equals("CUSTOM")) {
+            slimePropertyMap.setValue(SlimeProperties.ENVIRONMENT, "NORMAL");
+        } else  {
+            slimePropertyMap.setValue(SlimeProperties.ENVIRONMENT, environment.name());
+        }
         return slimePropertyMap;
     }
 }

@@ -1,5 +1,6 @@
 name: SuperiorSkyblock-ASWM
 version: 1.0.4
+api-version: 1.18
 authors: [Ome_R, aglerr]
 main: me.aglerr.ssbslimeworldmanager.SSBSlimeWorldManager
 depend: [SlimeWorldManager]

@@ -1,6 +1,5 @@
 package me.aglerr.ssbslimeworldmanager.provider;
 
-import com.bgsoftware.superiorskyblock.api.SuperiorSkyblockAPI;
 import com.bgsoftware.superiorskyblock.api.hooks.WorldsProvider;
 import com.bgsoftware.superiorskyblock.api.island.Island;
 import com.grinderwolf.swm.api.world.SlimeWorld;
