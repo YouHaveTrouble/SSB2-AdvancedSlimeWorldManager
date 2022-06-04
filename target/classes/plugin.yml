@@ -1,6 +1,0 @@
-name: SuperiorSkyblock-ASWM
-version: 1.0.4
-authors: [Ome_R, aglerr]
-main: me.aglerr.ssbslimeworldmanager.SSBSlimeWorldManager
-depend: [SlimeWorldManager]
-loadbefore: [SuperiorSkyblock2]
